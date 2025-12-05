@@ -138,7 +138,7 @@ mod test {
         let results = input_obj.find_invalids_part_two();
 
         assert_eq!(results.len(), 2);
-        assert_eq!(results[0], 11);
-        assert_eq!(results[1], 22);
+        assert_eq!(results[0], 99);
+        assert_eq!(results[1], 111);
     }
 }
