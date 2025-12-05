@@ -135,7 +135,7 @@ mod test {
     #[test]
     fn test_invalid_ids_two() {
         let input_obj: NumberRange = String::from("99-115").into();
-        let results = input_obj.find_invalid_ids();
+        let results = input_obj.find_invalids_part_two();
 
         assert_eq!(results.len(), 2);
         assert_eq!(results[0], 11);
