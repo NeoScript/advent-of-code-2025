@@ -5,13 +5,19 @@ fn main() {
     let input_one = read_input().expect("should read input file");
     let data_one = parse_input_one(input_one);
 
-    let invalid_ids: Vec<u128> = data_one
+    let output_one: u128 = data_one
         .iter()
         .flat_map(|r| r.clone().find_invalid_ids())
-        .collect();
+        .sum();
 
-    let sum: u128 = invalid_ids.iter().sum();
-    println!("part one: {}", sum);
+    println!("solution for part one: {}", output_one);
+
+    let output_two: u128 = data_one
+        .iter()
+        .flat_map(|r| r.clone().find_invalids_part_two())
+        .sum();
+
+    println!("solution for part two: {}", output_two);
 }
 
 #[derive(Clone)]
