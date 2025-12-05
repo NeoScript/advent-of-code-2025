@@ -132,13 +132,13 @@ mod test {
         assert_eq!(results[0], 99);
     }
 
-    // #[test]
-    // fn test_invalid_ids_two() {
-    //     let input_obj: NumberRange = String::from("99-115").into();
-    //     let results = input_obj.find_invalid_ids();
-    //
-    //     assert_eq!(results.len(), 2);
-    //     assert_eq!(results[0], 11);
-    //     assert_eq!(results[1], 22);
-    // }
+    #[test]
+    fn test_invalid_ids_two() {
+        let input_obj: NumberRange = String::from("99-115").into();
+        let results = input_obj.find_invalid_ids();
+
+        assert_eq!(results.len(), 2);
+        assert_eq!(results[0], 11);
+        assert_eq!(results[1], 22);
+    }
 }
