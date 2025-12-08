@@ -1,22 +1,18 @@
+use fancy_regex::Regex;
 use std::{fs, io::Error, ops::RangeInclusive, path::Path};
 
 fn main() {
     println!("Running day 2 calculations");
-    let input_one = read_input().expect("should read input file");
-    let data_one = parse_input_one(input_one);
+    let input_data = read_input().expect("should read input file");
+    let data = parse_input_one(input_data);
 
-    let output_one: u128 = data_one
-        .iter()
-        .flat_map(|r| r.clone().find_invalid_ids())
-        .sum();
-
+    let output_one: u128 = data.iter().flat_map(|r| r.clone().find_invalid_ids()).sum();
     println!("solution for part one: {}", output_one);
 
-    let output_two: u128 = data_one
+    let output_two: u128 = data
         .iter()
         .flat_map(|r| r.clone().find_invalids_part_two())
         .sum();
-
     println!("solution for part two: {}", output_two);
 }
 
@@ -44,8 +40,15 @@ impl NumberRange {
         start_num..=end_num
     }
     pub fn find_invalids_part_two(&self) -> Vec<u128> {
-        let results = vec![];
+        let mut results = vec![];
+        let range = self.as_range();
 
+        range.into_iter().for_each(|i| {
+            let value = i.to_string();
+            if is_invalid_part_two(value) {
+                results.push(i);
+            }
+        });
         results
     }
 
@@ -93,6 +96,11 @@ fn parse_input_one(file_contents: String) -> Vec<NumberRange> {
 fn read_input() -> Result<String, Error> {
     let path = Path::new("input1.txt");
     fs::read_to_string(path)
+}
+
+fn is_invalid_part_two(value: String) -> bool {
+    let pattern = Regex::new(r"^(\d+)\1+$").expect("should compile pattern");
+    pattern.is_match(&value).expect("should go thru check")
 }
 
 #[cfg(test)]
@@ -146,5 +154,34 @@ mod test {
         assert_eq!(results.len(), 2);
         assert_eq!(results[0], 99);
         assert_eq!(results[1], 111);
+    }
+
+    #[test]
+    fn test_invalid_value_part_two_99() {
+        let value = String::from("99");
+        let result = is_invalid_part_two(value);
+        assert!(result);
+    }
+
+    #[test]
+    fn test_invalid_value_part_two_115() {
+        let value = String::from("115");
+        let result = is_invalid_part_two(value);
+        assert!(!result);
+    }
+
+    #[test]
+    fn test_invalid_value_part_two_565656() {
+        let value = String::from("565656");
+        let result = is_invalid_part_two(value);
+        assert!(result);
+    }
+
+    #[test]
+    fn test_invalid_value_part_two_90() {
+        let value = String::from("90");
+        let result = is_invalid_part_two(value);
+
+        assert!(!result);
     }
 }
